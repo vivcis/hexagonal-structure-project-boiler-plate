@@ -1,7 +1,6 @@
 package server
 
 import (
-	"gorm.io/gorm"
 	"vivicis/github.com/notification-service/internal/adapters/api"
 	"vivicis/github.com/notification-service/internal/adapters/repository"
 	"vivicis/github.com/notification-service/internal/core/helpers"
@@ -9,8 +8,8 @@ import (
 )
 
 // Injection inject all dependencies
-func Injection(db *gorm.DB) {
-	userRepository := repository.NewUser(db)
+func Injection(db *repository.Db) {
+	userRepository := repository.NewUser(db.Mongo)
 	userService := service.NewUserService(userRepository)
 
 	mailerRepository := repository.NewMail()

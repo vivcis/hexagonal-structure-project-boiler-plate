@@ -26,4 +26,6 @@ func SetupRouter(handler *api.HTTPHandler, userService ports.UserService) *gin.E
 	{
 		r.GET("/ping", handler.PingHandler)
 	}
+
+	return router
 }

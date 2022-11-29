@@ -1,4 +1,4 @@
-package databases
+package repository
 
 import (
 	"context"
@@ -7,13 +7,19 @@ import (
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
 	"go.mongodb.org/mongo-driver/mongo/readpref"
+	"log"
 	"time"
+	"vivicis/github.com/notification-service/internal/ports"
 )
 
 type mongoDB struct {
 	client   *mongo.Client
 	database string
 	timeout  time.Duration
+}
+
+func NewUser(mongo *mongo.Client) ports.UserRepository {
+	return &Db{Mongo: mongo}
 }
 
 // NewMongoDB creates an instance of mongoDB type
@@ -30,8 +36,9 @@ func ConnectMongoDB(c *databaseConfig) (*Db, error) {
 	logrus.Info("Connecting to Mongo DB ")
 	ctx, cancel := context.WithTimeout(context.Background(), c.ctxTimeout)
 	defer cancel()
-	mongoUri := fmt.Sprintf("mongodb://%s:%s@%s:%d/%s", c.user, c.password, c.host, c.port, c.database)
+	mongoUri := fmt.Sprintf("mongodb://%s:%s@%s:%v/%s", c.user, c.password, c.host, c.port, c.database)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoUri))
+	log.Println("here", mongoUri)
 	if err != nil {
 		return nil, err
 	}

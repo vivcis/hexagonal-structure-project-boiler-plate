@@ -1,14 +1,13 @@
-package databases
+package repository
 
 import (
-	"github.com/jackc/pgx/v4/pgxpool"
 	"go.mongodb.org/mongo-driver/mongo"
 	"os"
 	"time"
 )
 
 type Db struct {
-	Pool  *pgxpool.Pool
+	//Pool  *pgxpool.Pool
 	Mongo *mongo.Client
 }
 
@@ -30,6 +29,7 @@ func newConfigMongoDB() *databaseConfig {
 		database:   os.Getenv("MONGODB_DATABASE"),
 		password:   os.Getenv("MONGODB_PASSWORD"),
 		user:       os.Getenv("MONGODB_USER"),
+		port:       os.Getenv("MONGODB_PORT"),
 		ctxTimeout: 60 * time.Second,
 	}
 }
