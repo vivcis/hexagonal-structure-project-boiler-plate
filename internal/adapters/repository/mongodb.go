@@ -2,7 +2,6 @@ package repository
 
 import (
 	"context"
-	"fmt"
 	"github.com/sirupsen/logrus"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -36,7 +35,8 @@ func ConnectMongoDB(c *databaseConfig) (*Db, error) {
 	logrus.Info("Connecting to Mongo DB ")
 	ctx, cancel := context.WithTimeout(context.Background(), c.ctxTimeout)
 	defer cancel()
-	mongoUri := fmt.Sprintf("mongodb://%s:%s@%s:%v/%s", c.user, c.password, c.host, c.port, c.database)
+	mongoUri := "mongodb://localhost:27017/notification_service"
+	//mongoUri := fmt.Sprintf("mongodb://%s:%s@%s:%v/%s", c.user, c.password, c.host, c.port, c.database)
 	client, err := mongo.Connect(ctx, options.Client().ApplyURI(mongoUri))
 	log.Println("here", mongoUri)
 	if err != nil {
@@ -48,4 +48,5 @@ func ConnectMongoDB(c *databaseConfig) (*Db, error) {
 	}
 	mgo := NewMongoDB(client, c.database, c.ctxTimeout)
 	return &Db{Mongo: mgo.client}, nil
+
 }

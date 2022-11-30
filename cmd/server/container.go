@@ -3,7 +3,6 @@ package server
 import (
 	"vivicis/github.com/notification-service/internal/adapters/api"
 	"vivicis/github.com/notification-service/internal/adapters/repository"
-	"vivicis/github.com/notification-service/internal/core/helpers"
 	"vivicis/github.com/notification-service/internal/core/service"
 )
 
@@ -21,5 +20,5 @@ func Injection(db *repository.Db) {
 	Handler := api.NewHTTPHandler(userService, mailerService, AWSService)
 	router := SetupRouter(Handler, userService)
 
-	_ = router.Run(":" + helpers.Instance.Port)
+	_ = router.Run(":8081")
 }
