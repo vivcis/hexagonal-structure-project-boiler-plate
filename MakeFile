@@ -1,3 +1,9 @@
+start-db:
+	brew services start mongodb-community@5.0
+
+stop-db:
+	brew services stop mongodb-community@5.0
+
 run: |
 	gofmt -w .
 	go run ./cmd/main.go
